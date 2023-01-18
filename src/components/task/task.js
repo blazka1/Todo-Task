@@ -1,26 +1,33 @@
 import React from 'react';
 import './task.css';
-import { compareAsc, format, formatDistanceToNow } from 'date-fns'
+import { formatDistanceToNow } from 'date-fns'
 
-function Task({label, id, date, completed, editing}) {
-    var result = formatDistanceToNow(
-        date,
-        {includeSeconds: true}
-    )
 
-    return (
-        <li className={ completed ? 'completed' : ''}>
-            <div className="view">
-                <input className="toggle" type="checkbox" />
+
+export default class Task extends React.Component  {
+
+    render() {
+        const {label, id, date, completed, editing, checkedStatus, removeItem} = this.props
+        var result = formatDistanceToNow(
+            date,
+            {includeSeconds: true}
+        )
+
+        return (
+            <li className={completed ? 'completed' : ''}>
+                <div className="view">
+                    <input onClick={() => checkedStatus(id)} checked={completed} className="toggle" type="checkbox"/>
                     <label>
                         <span className="description">{label}</span>
                         <span className="created">{result}</span>
                     </label>
-                    <button className="icon icon-edit" />
-                    <button className="icon icon-destroy" />
-            </div>
-        </li>
-    )
+                    <button className="icon icon-edit"/>
+                    <button onClick={() => removeItem(id)} className="icon icon-destroy"/>
+                </div>
+            </li>
+        )
+    }
 }
 
-export default Task;
+
+// {label, id, date, completed, editing, checkedStatus}
